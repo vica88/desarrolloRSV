@@ -1,0 +1,29 @@
+<p>Ranking diario</p>
+
+<!-- Calendario para poner fecha desde --> 
+<mat-form-field>
+    <input required matInput [matDatepicker]="myDatePicker" [(ngModel)]="fechaDesde" placeholder="Fecha desde">
+    <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #myDatePicker></mat-datepicker>
+</mat-form-field>
+
+<br>
+
+<!-- Calendario para poner fecha hasta --> 
+<mat-form-field>
+    <input required matInput [matDatepicker]="myDatePicker2" [(ngModel)]="fechaHasta" placeholder="Fecha hasta">
+    <mat-datepicker-toggle [for]="myDatePicker2" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #myDatePicker2></mat-datepicker>
+</mat-form-field>
+<mat-dialog-actions>
+    <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta" mat-button (click)="obtenerReporte()">Descargar</button> <!-- para que cierren se usa mat-dialog-close -->
+    <button mat-button>Ver Online</button>
+</mat-dialog-actions>
+
+<!-- Linea separadora -->
+<hr class="linea">
+
+<!-- Boton de cierre -->
+<mat-dialog-actions>
+    <button class="btnClose" mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

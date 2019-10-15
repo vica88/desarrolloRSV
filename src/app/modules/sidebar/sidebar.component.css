@@ -1,0 +1,86 @@
+
+.example-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+mat-drawer-content {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+/* Contenido de la sidenav */
+
+.sidenav-container{
+    width: 100%;
+    height: 100%;
+}
+
+.sidenav{
+  background-color: white; 
+  margin: 0;
+  padding: 0; 
+}
+
+/* Estilos Mapa */
+
+/* .map{
+    width: 100%;
+    height: 100%;
+} */
+
+/* Estilos Toolbar */
+
+.mat-toolbar{
+    background-color: #0d2c44
+}
+.btnToolbar{
+    color: white
+}
+
+.btnLogOut i{
+    color: white;
+    font-size: 30px
+}
+
+.toolbar-title{
+    color: white
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+.mat-expansion-panel{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    width: 20%;
+    min-width: 300px;
+}
+
+/* Estilos del contenido los elementos principales del acordeon */
+
+.listado{
+    color: #fff;
+    /* display: block; */
+    height: 100%;
+    width: 100%;
+    padding: 15px 20px; 
+    background-color: #2175bc;
+    list-style: none;
+    text-decoration: none;
+}
+
+.mat-expansion-panel-content > .mat-expansion-panel-body {
+    background-color: red !important;
+  }

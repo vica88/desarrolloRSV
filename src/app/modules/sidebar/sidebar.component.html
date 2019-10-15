@@ -1,0 +1,126 @@
+<mat-drawer-container class="example-container">
+    <mat-drawer-content>
+
+        <!--------------------------------------- TOOLBAR ------------------------------------->
+        <mat-toolbar>
+            
+                <mat-toolbar-row>
+                    <button class="btnToolbar" type="button" aria-label="Toggle sidenav" mat-icon-button
+                        (click)="drawer.toggle()" color="primary">
+                        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                    </button>
+                    <span _ngcontent-kof-c2 class="toolbar-title"> RSV </span>
+                    <span class="spacer"></span>
+                    <!-- Se le podria agregar un tooltip al btn de logout -->
+                    <button class= "btnLogOut" mat-button (click)="salir()"><i class="fa fa-user-times"></i></button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-sidenav-container class="sidenav-container" hasBackdrop="false">
+            <mat-sidenav class="sidenav" #drawer mode="over" visibility="false" opened="false" role="navigation">
+                <mat-nav-list>
+
+                    <!--------------------- EFECTO ACORDEON ---------------------------------->
+                    <mat-accordion hideToggle>
+
+                        <!------------------------- SEGUIMIENTO --------------------------------->
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                                        <mat-icon>h</mat-icon>
+                                        Seguimiento
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <!----------------------------- ESTADO DE FLOTA ----------------------------->
+                            <mat-list-item (click)="openDialog()">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Estado de flota
+                                </div>
+                            </mat-list-item>
+
+                            <!----------------------------- TIEMPOS SIN TRANSMISION ----------------------------->
+                            <mat-list-item>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Tiempos sin transmisión
+                                </div>
+                            </mat-list-item>
+
+                            <!------------------------------------ OPCIONES ------------------------------------>
+                            <mat-list-item>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Opciones
+                                </div>
+                            </mat-list-item>
+                        </mat-expansion-panel>
+
+                        <!------------------------------------ SEGURIDAD VIAL ----------------------------------->
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                                        <mat-icon>h</mat-icon>
+                                        Seguridad Vial
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <!------------------------------------ RANKING DIARIO ----------------------------------->
+                            <mat-list-item>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Ranking Diario
+                                </div>
+                            </mat-list-item>
+
+                            <!------------------------------------ RANKING QUINCENAL ----------------------------------->
+                            <mat-list-item>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Ranking Quincenal
+                                </div>
+                            </mat-list-item>
+
+                            <!------------------------------------ SEGURIDAD MENSUAL ----------------------------------->
+                            <mat-list-item>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Ranking Mensual
+                                </div>
+                            </mat-list-item>
+                        </mat-expansion-panel>
+                        <!------------------------------------ REPORTES ----------------------------------->
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                                        <mat-icon>h</mat-icon>
+                                        Reportes
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <!------------------------------------ ACT ONLINE ----------------------------------->
+                            <mat-list-item (click)="openDragArea()">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Actividad Online
+                                </div>
+                            </mat-list-item>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <!------------------------- FIN ACORDEON --------------------------------->
+
+                </mat-nav-list>
+            </mat-sidenav>
+            <mat-sidenav-content>
+                <app-map class="map"></app-map> 
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </mat-drawer-content>
+</mat-drawer-container>

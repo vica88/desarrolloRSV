@@ -1,0 +1,38 @@
+<p>Seleccione un Vehículo</p>
+  <mat-form-field>
+    <mat-select name="vehiculos" [formControl]="vehicleCtrl" placeholder="Vehículos" #singleSelect>
+      <mat-option>
+        <ngx-mat-select-search [formControl]="vehicleFilterCtrl" [placeholderLabel]="'Buscar Vehículos...'"  ></ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let vehicle of filteredVehicle | async" [value]="vehicle">
+        {{vehicle.patente}} - {{vehicle.modelo}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<p>Seleccione las fechas</p>
+
+<!-- Calendario para poner fecha desde --> 
+<mat-form-field>
+  <input required matInput [matDatepicker]="myDatePicker" [(ngModel)]="fechaDesde" placeholder="Fecha desde">
+  <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
+  <mat-datepicker #myDatePicker></mat-datepicker>
+</mat-form-field>
+
+<br>
+
+<!-- Calendario para poner fecha hasta --> 
+<mat-form-field>
+  <input required matInput [matDatepicker]="myDatePicker2" [(ngModel)]="fechaHasta" placeholder="Fecha hasta">
+  <mat-datepicker-toggle [for]="myDatePicker2" matSuffix></mat-datepicker-toggle>
+  <mat-datepicker #myDatePicker2></mat-datepicker>
+</mat-form-field>
+<mat-dialog-actions>
+  <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta || !vehicleCtrl.value" mat-button (click)="verOnline()">Ver Online</button>
+  <!-- Boton de cierre -->
+
+  <button class="btnClose" mat-button mat-dialog-close>CLOSE</button>
+
+</mat-dialog-actions>
+
+
