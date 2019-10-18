@@ -20,6 +20,7 @@ import { SidebarComponent } from './modules/sidebar/sidebar.component';
 import { DialogRankingDiarioComponent } from './modules/dialog-ranking-diario/dialog-ranking-diario.component';
 import { DataVehicleComponent } from './modules/data-vehicle/data-vehicle.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DialogDragDropComponent } from './modules/dialog-drag-drop/dialog-drag-drop.component';
 
@@ -52,6 +53,7 @@ import { DialogDragDropComponent } from './modules/dialog-drag-drop/dialog-drag-
     MatFormFieldModule,
     NgxMatSelectSearchModule,
     DragDropModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],

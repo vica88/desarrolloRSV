@@ -40,6 +40,8 @@ import { featurestyles } from "@app/_models/featurestyles";
 import { Posicion } from "@app/_models";
 import { MatExpansionPanelDefaultOptions } from '@angular/material';
 import { DataVehicleComponent } from '../../data-vehicle/data-vehicle.component';
+import { InteractionWithMapService } from '@app/_services/interaction-with-map.service';
+import { MapCommand } from '@app/_models/mapcommand';
 
 
 
@@ -62,8 +64,12 @@ export class MapComponent implements OnInit {
   public opended = false; 
   public markers : L.MarkerClusterGroup
   public generalData: Array<DataVehicleComponent>;
+  public message:string;
 
-  constructor(public trackingService: TrackingService) {
+  constructor(
+    public interactionMap: InteractionWithMapService,
+    public trackingService: TrackingService
+    ) {
     this.generalData = []
   }
 
@@ -124,8 +130,26 @@ export class MapComponent implements OnInit {
     })
   };
 
+  hacerAccion(data: MapCommand){
+    if (data.accion = "ver online"){
+      this.dibujarRecorrido(data.params.idVehiculo,data.params.fechaDesde,data.params.hora,
+        data.params.horaHasta)
+    }
+  }
+
+  dibujarRecorrido(idVehiculo: number, fechaDesde: Date, horaHasta: string,horaDesde: string) {
+    this.trackingService.getRecorrido(idVehiculo,fechaDesde,horaHasta,horaDesde).subscribe(
+      //aca la logica de dibujar el recorrido
+    )
+  }
+
   ngOnInit(){ 
-       
+     
+    // Se reciben los datos que ingreso el usuario en el dialog drag-drop
+    // y que luego toca el boton "ver online" y se deberia dibujar el recorrido
+
+    this.interactionMap.share$.subscribe(data => this.hacerAccion(data))
+
     // Se crea el mapa y se lo inicializa por default en "Argentina"
     const map = L.map('map').setView([-34, -59], 7);
     

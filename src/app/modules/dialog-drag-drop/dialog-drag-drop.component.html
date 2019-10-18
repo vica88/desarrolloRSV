@@ -21,18 +21,38 @@
 
 <br>
 
+<p>Ingrese hora desde</p>
+<div class="ngx-timepicker-field-example">
+  <ngx-timepicker-field [format]="24" [controlOnly]="true" [defaultTime]="'0:00'" [(ngModel)]="horaDesde"></ngx-timepicker-field>
+</div>
+
+
+<br>
+
 <!-- Calendario para poner fecha hasta --> 
 <mat-form-field>
   <input required matInput [matDatepicker]="myDatePicker2" [(ngModel)]="fechaHasta" placeholder="Fecha hasta">
   <mat-datepicker-toggle [for]="myDatePicker2" matSuffix></mat-datepicker-toggle>
   <mat-datepicker #myDatePicker2></mat-datepicker>
 </mat-form-field>
+
+<br>
+
+<p>Ingrese hora hasta</p> <!-- ESTE CAMPO NO SE SABE AUN SI SERA PARA HACER UN RANGO DE HORARIOS O SERA UN SELECCIONABLE "DURATE X TIEMPO" -->
+<div class="ngx-timepicker-field-example">
+  <ngx-timepicker-field [format]="24" [controlOnly]="true" [defaultTime]="'0:00'" [(ngModel)]="horaHasta" ></ngx-timepicker-field>
+</div>
+
+<br>
+
 <mat-dialog-actions>
-  <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta || !vehicleCtrl.value" mat-button (click)="verOnline()">Ver Online</button>
+
+  <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta || !vehicleCtrl.value || !horaDesde" mat-button (click)="verOnline()">Ver Online</button>
   <!-- Boton de cierre -->
 
   <button class="btnClose" mat-button mat-dialog-close>CLOSE</button>
 
 </mat-dialog-actions>
+
 
 
