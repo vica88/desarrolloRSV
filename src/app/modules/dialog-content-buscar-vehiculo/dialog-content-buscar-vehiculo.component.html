@@ -1,0 +1,42 @@
+<p>Seleccion de vehiculo(s)</p>
+<mat-form-field>
+    <mat-label>Seleccionar Vehiculo</mat-label>
+    <mat-select [formControl]="vehiculosCtrl" multiple (selectionChange)="select($event.value)" #multipleSelect>
+        <mat-option>
+            <ngx-mat-select-search [formControl]="vehicleFilterCtrl" [placeholderLabel]="'Buscar Vehículos...'"  
+            [noEntriesFoundLabel]="'Vehiculo no encontrado...'"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let vehiculo of listaVehiculosFiltro | async" [value]="vehiculo" style="height: 60px; line-height: normal;" >
+            {{vehiculo.patente}} <br> 
+            <div [ngSwitch]="vehiculo.idtipovehiculo">
+                <img *ngSwitchCase = "1" src="./assets/carSelect.png"> 
+                <img *ngSwitchCase = "2" src="./assets/pickup.png">
+                <img *ngSwitchCase = "3" src="./assets/truckSelect.png">
+                <img *ngSwitchCase = "5" src="./assets/truckSelect.png">
+                <img *ngSwitchCase = "9" src="./assets/pickup.png">
+                <img *ngSwitchCase = "10" src="./assets/tractor.png"> 
+                <img *ngSwitchCase = "21" src="./assets/bus.png">
+                <img *ngSwitchDefault src="./assets/carSelect.png">
+                &nbsp; {{vehiculo.marca}} - {{vehiculo.modelo}}
+            </div>  
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<p>Vehiculos seleccionados: </p>
+<li style="list-style: none">
+    <ul *ngFor="let vehiculo of listaVehiculosSeleccionados | async" style="list-style: none;">
+        <i class="fa fa-times-circle" style="color: red;" (click)="borrarDeLista(vehiculo.idvehiculo)"></i>
+        {{vehiculo.patente}} <br> 
+        <div [ngSwitch]="vehiculo.idtipovehiculo">
+            <img *ngSwitchCase = "1" src="./assets/carSelect.png"> 
+            <img *ngSwitchCase = "2" src="./assets/pickup.png">
+            <img *ngSwitchCase = "3" src="./assets/truckSelect.png">
+            <img *ngSwitchCase = "5" src="./assets/truckSelect.png">
+            <img *ngSwitchCase = "9" src="./assets/pickup.png">
+            <img *ngSwitchCase = "10" src="./assets/tractor.png"> 
+            <img *ngSwitchCase = "21" src="./assets/bus.png">
+            <img *ngSwitchDefault src="./assets/carSelect.png">
+            &nbsp; {{vehiculo.marca}} - {{vehiculo.modelo}}
+        </div>  
+    </ul>
+</li>

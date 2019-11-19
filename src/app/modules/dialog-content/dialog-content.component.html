@@ -1,0 +1,42 @@
+<div *ngIf=mostrarBotones>
+  <button (click)="reanudarAnimacion()" class="button"><i class="fa fa-play-circle" style=" font-size: 20px"></i></button>
+  <button (click)="pausarAnimacion()" class="button"><i class="fa fa-stop-circle" style=" font-size: 20px"></i></button>
+</div>
+ <p>Patente: {{data.tipo.patente}}</p> 
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!-- Columna Hora -->
+  <ng-container matColumnDef="fecha">
+    <th mat-header-cell *matHeaderCellDef> Hora </th>
+    <td mat-cell *matCellDef="let element"> {{element.fyh | date:'HH:mm:ss'}} </td>
+  </ng-container>
+
+  <!-- Columna Velocidad -->
+  <ng-container matColumnDef="velocidad">
+      <th mat-header-cell *matHeaderCellDef> Velocidad </th>
+      <td mat-cell *matCellDef="let element"> {{element.velocidad}} Km/h </td>
+  </ng-container>
+
+  <!-- Columna Hora -->
+  <ng-container matColumnDef="evento">
+      <th mat-header-cell *matHeaderCellDef> Evento </th>
+      <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns; let i= index"
+  [ngClass]="{'highlight': (selectedRowIndex == row.posicion) }"
+  (click)="highlight(row, i)"
+  tabindex="999"
+  (keydown.arrowdown)="arrowDownEvent(row, selectedRowIndex)"
+  (keydown.arrowup)="arrowUpEvent(row, selectedRowIndex)"></tr>
+
+   <!-- Group header -->
+   <ng-container matColumnDef="groupHeader">
+    <td colspan="999" mat-cell *matCellDef="let element"><strong>Fecha: {{element.fechaParaAgrupar}}</strong></td>
+  </ng-container>
+
+  <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
+
+</table>
