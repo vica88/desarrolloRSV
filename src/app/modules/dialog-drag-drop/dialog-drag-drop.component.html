@@ -2,7 +2,8 @@
   <mat-form-field>
     <mat-select name="vehiculos" [formControl]="vehicleCtrl" placeholder="Vehículos" #singleSelect>
       <mat-option>
-        <ngx-mat-select-search [formControl]="vehicleFilterCtrl" [placeholderLabel]="'Buscar Vehículos...'"  ></ngx-mat-select-search>
+        <ngx-mat-select-search [formControl]="vehicleFilterCtrl" [placeholderLabel]="'Buscar Vehículos...'"  
+        [noEntriesFoundLabel]="'Vehiculo no encontrado..'"></ngx-mat-select-search>
       </mat-option>
       <mat-option *ngFor="let vehicle of filteredVehicle | async" [value]="vehicle">
         {{vehicle.patente}} - {{vehicle.modelo}}
@@ -23,7 +24,7 @@
 
 <p>Ingrese hora desde</p>
 <div class="ngx-timepicker-field-example">
-  <ngx-timepicker-field [format]="24" [controlOnly]="true" [defaultTime]="'0:00'" [(ngModel)]="horaDesde"></ngx-timepicker-field>
+  <ngx-timepicker-field [format]="24" [controlOnly]="true" [defaultTime]="'00:00'" [(ngModel)]="horaDesde"></ngx-timepicker-field>
 </div>
 
 
@@ -40,16 +41,21 @@
 
 <p>Ingrese hora hasta</p> <!-- ESTE CAMPO NO SE SABE AUN SI SERA PARA HACER UN RANGO DE HORARIOS O SERA UN SELECCIONABLE "DURATE X TIEMPO" -->
 <div class="ngx-timepicker-field-example">
-  <ngx-timepicker-field [format]="24" [controlOnly]="true" [defaultTime]="'0:00'" [(ngModel)]="horaHasta" ></ngx-timepicker-field>
+  <ngx-timepicker-field [format]="24" [controlOnly]="true" [defaultTime]="'00:00'" [(ngModel)]="horaHasta" ></ngx-timepicker-field>
 </div>
 
 <br>
 
 <mat-dialog-actions>
+  <!-- validacion sacada de hora ->> || !horaDesde || !horaHasta || horaDesde == horaHasta && fechaDesde == fechaHasta -->
+  <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta || !vehicleCtrl.value" mat-button mat-dialog-close (click)="verOnline()">Ver Online</button>
 
-  <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta || !vehicleCtrl.value || !horaDesde" mat-button (click)="verOnline()">Ver Online</button>
+  <button [disabled]="!fechaDesde || !fechaHasta || fechaDesde > fechaHasta || !vehicleCtrl.value" mat-button mat-dialog-close (click)="animar()">Animar</button>
+  
+  <!-- Eliminamos lo almacenado en el localStorage -->
+  <button mat-button (click)= "limpiarDialog()">Borrar Datos</button>
+
   <!-- Boton de cierre -->
-
   <button class="btnClose" mat-button mat-dialog-close>CLOSE</button>
 
 </mat-dialog-actions>

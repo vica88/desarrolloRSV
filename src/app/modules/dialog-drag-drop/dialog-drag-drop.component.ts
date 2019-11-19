@@ -9,6 +9,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { InteractionWithMapService } from '../../_services/interaction-with-map.service';
 import * as moment from 'moment'
 import { MapCommand } from '@app/_models/mapcommand';
+import { LocalstorageService } from '@app/_services/localstorage.service';
 
 @Component({
   selector: 'app-dialog-drag-drop',
@@ -40,17 +41,34 @@ export class DialogDragDropComponent implements OnInit {
   public fHasta: string;
   public horaDesde: string;
   public horaHasta: string;
-
+  public KEY = "verOnlineStorage";
   constructor(
     private interactionMap: InteractionWithMapService,
     private dialogRef: MatDialogRef<DialogDragDropComponent>,
+    private localStorageService: LocalstorageService,
+
     @Inject(MAT_DIALOG_DATA) {lista}) {
 
     this.listaVehiculos = lista;
   } 
 
   ngOnInit() {
+    
 
+    // Cargamos los valores guardados en el localStorage (si hay)
+    const datosIngresados = this.localStorageService.obtenerDatos(this.KEY)
+    if (datosIngresados != null){
+      let vehSeleccionado = this.listaVehiculos.find(idVehiculo => idVehiculo.idvehiculo == 
+        datosIngresados.sVehSelec.idvehiculo)
+      if (vehSeleccionado != null){
+        this.vehicleCtrl.setValue(vehSeleccionado)
+      }
+      this.fechaDesde = new Date(datosIngresados.sfechaDesde);
+      this.fechaHasta = new Date(datosIngresados.sfechaHasta);
+      this.horaDesde = datosIngresados.shoraDesde
+      this.horaHasta = datosIngresados.shoraHasta
+    
+    }
     // load the initial vehicle list
     this.filteredVehicle.next(this.listaVehiculos.slice()); 
 
@@ -96,10 +114,8 @@ export class DialogDragDropComponent implements OnInit {
     if (!search) {
       this.filteredVehicle.next(this.listaVehiculos.slice());
       return;
-    } else {
-      //console.log(search) 
-      //search = search.toLowerCase(); 
-    }
+    } 
+    
     // filter the vehicles
     this.filteredVehicle.next(
       this.listaVehiculos.filter(vehicle => vehicle.patente.toLowerCase().indexOf(search) > -1 || vehicle.modelo.toLowerCase().indexOf(search) > -1)
@@ -109,60 +125,7 @@ export class DialogDragDropComponent implements OnInit {
   verOnline(){
     //se hace el bindeo de las fechas que se ingresan en el calendario
 
-    this.fDesde = this.fechaDesde.getFullYear().toString() + '-' + 
-    (this.fechaDesde.getMonth()+1).toString() + '-' + 
-    this.fechaDesde.getDate().toString();
-
-    this.fHasta = this.fechaHasta.getFullYear().toString() + '-' + 
-    (this.fechaHasta.getMonth()+1).toString() + '-' + 
-    this.fechaHasta.getDate().toString();
-    
-    //FECHA DESDE 
-
-    // sacamos los guiones a la fecha
-  
-    let anio = parseInt(this.fDesde.split("-")[0]);
-    let mes = parseInt(this.fDesde.split("-")[1]) - 1;
-    let dia = parseInt(this.fDesde.split("-")[2]);
-    
-    // sacamos los dos puntos a la hora
-
-    let hora = parseInt(this.horaDesde.split(":")[0])
-    let minutos = parseInt(this.horaDesde.split(":")[1])
-
-    //armamos la fecha con la hora
-
-    let fechaHoraDesde = new Date(anio,mes,dia,hora,minutos)
-   
-    //FECHA HASTA 
-
-    // sacamos los guiones a la fecha
-  
-    let anio2 = parseInt(this.fHasta.split("-")[0]);
-    let mes2 = parseInt(this.fHasta.split("-")[1])-1;
-    let dia2 = parseInt(this.fHasta.split("-")[2]);
-    
-    // sacamos los dos puntos a la hora
-
-    let hora2 = parseInt(this.horaHasta.split(":")[0])
-    let minutos2 = parseInt(this.horaHasta.split(":")[1])
-
-    //armamos la fecha con la hora
-
-    let fechaHoraHasta = new Date(anio2,mes2,dia2,hora2,minutos2)
-    
-    // hacemos la diferencia de la fecha hasta - fecha desde 
-    let fTotal = fechaHoraHasta.getTime() - fechaHoraDesde.getTime()
-
-    // pasamos los milesegundos a segundos, minutos, horas y dia(s)
-    
-    let seconds = fTotal / 1000;
-    let minutes = seconds / 60;
-    let hours = minutes / 60;
-    let days = hours / 24;  
-
-    // obtenemos el resultado a pasarle al data (formato "dia horas:minutos")  
-    let resultadoFinal = Math.floor(days) + " " + Math.floor(hours % 24) + ":" + Math.floor(minutes % 60)
+    let resultadoFinal = this.armarPedido();
     
     
     // se arma la data que se le pasara al servicio que conecta con el mapa
@@ -173,10 +136,112 @@ export class DialogDragDropComponent implements OnInit {
                     /* oFechaHasta: this.fHasta, */
                     idVehSeleccionado: this.vehicleCtrl.value.idvehiculo,
                     fechaPedida: resultadoFinal
-                  }
-                
+                  } 
+
+    //se guardan los valores ingresados en el localstorage
+    this.localStorageService.storeOnLocalStorage(this.KEY,{
+      sfechaDesde: this.fechaDesde,
+      sfechaHasta: this.fechaHasta,
+      sVehSelec: this.vehicleCtrl.value,
+      shoraDesde: this.horaDesde,
+      shoraHasta: this.horaHasta,
+    })
+
     // pasamos los datos al servicio
     this.interactionMap.changeMessage(data)
+  }
+  
+  private armarPedido() {
+
+    this.fDesde = this.fechaDesde.getFullYear().toString() + '-' +
+      (this.fechaDesde.getMonth() + 1).toString() + '-' +
+      this.fechaDesde.getDate().toString();
+    this.fHasta = this.fechaHasta.getFullYear().toString() + '-' +
+      (this.fechaHasta.getMonth() + 1).toString() + '-' +
+      this.fechaHasta.getDate().toString();
+
+    //FECHA DESDE 
+    // sacamos los guiones a la fecha
+    let anio = parseInt(this.fDesde.split("-")[0]);
+    let mes = parseInt(this.fDesde.split("-")[1]) - 1;
+    let dia = parseInt(this.fDesde.split("-")[2]);
+
+    // sacamos los dos puntos a la hora
+    if (this.horaDesde == null)
+      this.horaDesde = "00:00"
+    let hora = parseInt(this.horaDesde.split(":")[0]);
+    let minutos = parseInt(this.horaDesde.split(":")[1]);
+
+    //armamos la fecha con la hora
+    let fechaHoraDesde = new Date(anio, mes, dia, hora, minutos);
+
+    //FECHA HASTA 
+    // sacamos los guiones a la fecha
+    let anio2 = parseInt(this.fHasta.split("-")[0]);
+    let mes2 = parseInt(this.fHasta.split("-")[1]) - 1;
+    let dia2 = parseInt(this.fHasta.split("-")[2]);
+
+    // sacamos los dos puntos a la hora
+    if (this.horaHasta == null)
+      this.horaHasta = "00:00"
+    let hora2 = parseInt(this.horaHasta.split(":")[0]);
+    let minutos2 = parseInt(this.horaHasta.split(":")[1]);
+
+    //armamos la fecha con la hora
+    let fechaHoraHasta = new Date(anio2, mes2, dia2, hora2, minutos2);
+
+    // hacemos la diferencia de la fecha hasta - fecha desde 
+    let fTotal = fechaHoraHasta.getTime() - fechaHoraDesde.getTime();
+    if (fTotal < 0){
+      fTotal = fTotal * -1
     }
+    // pasamos los milesegundos a segundos, minutos, horas y dia(s)
+    let seconds = fTotal / 1000;
+    let minutes = seconds / 60;
+    let hours = minutes / 60;
+    let days = hours / 24;
+
+    // obtenemos el resultado a pasarle al data (formato "dia horas:minutos")  
+    let resultadoFinal = Math.floor(days) + " " + Math.floor(hours % 24) + ":" +
+      Math.floor(minutes % 60);
+    return resultadoFinal;
+  }
+
+  animar(){
+
+    let resultadoFinal = this.armarPedido();
+    
+    // se arma la data que se le pasara al servicio que conecta con el mapa
+    const data = new MapCommand()
+  
+    data.accion = "animar";
+    data.params = {oFechaDesde: this.fDesde,
+                    hDesde: this.horaDesde,
+                    /* oFechaHasta: this.fHasta, */
+                    idVehSeleccionado: this.vehicleCtrl.value.idvehiculo,
+                    fechaPedida: resultadoFinal
+                  }
+
+     //se guardan los valores ingresados en el localstorage
+     this.localStorageService.storeOnLocalStorage(this.KEY,{
+      sfechaDesde: this.fechaDesde,
+      sfechaHasta: this.fechaHasta,
+      sVehSelec: this.vehicleCtrl.value,
+      shoraDesde: this.horaDesde,
+      shoraHasta: this.horaHasta,
+    })
+                      
+    // pasamos los datos al servicio
+    this.interactionMap.changeMessage(data)
+  }
+
+  limpiarDialog(key){
+    this.localStorageService.eliminarDatos("verOnlineStorage")
+    this.fechaDesde = null;
+      this.fechaHasta = null;
+      this.horaDesde = "00:00";
+      this.horaHasta = "00:00";
+      this.vehicleCtrl.setValue(null)
+  }
 }
 

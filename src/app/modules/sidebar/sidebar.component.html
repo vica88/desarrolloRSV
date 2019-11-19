@@ -32,9 +32,17 @@
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
+                            
+                             <!----------------------------- BUSQUEDA VEHICULO ----------------------------->
+                             <mat-list-item (click)="buscarVehiculo()">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <mat-icon>h</mat-icon>
+                                    Vehiculos
+                                </div>
+                            </mat-list-item>
 
                             <!----------------------------- ESTADO DE FLOTA ----------------------------->
-                            <mat-list-item (click)="openDialog()">
+                            <mat-list-item>
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <mat-icon>h</mat-icon>
                                     Estado de flota
@@ -70,7 +78,7 @@
                             </mat-expansion-panel-header>
 
                             <!------------------------------------ RANKING DIARIO ----------------------------------->
-                            <mat-list-item>
+                            <mat-list-item (click)="openDialog()">
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <mat-icon>h</mat-icon>
                                     Ranking Diario

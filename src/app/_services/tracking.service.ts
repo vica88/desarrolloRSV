@@ -34,8 +34,7 @@ export class TrackingService {
   //dev.rsv.com.ar/rsv/reporteOnline?auto=21124&desde=2019-10-10&hasta=2%2000:00&hora=02:00  
   getRecorrido(idVehiculo,fechaDesde,horaHasta,horaDesde): Observable<ReporteOnlineResult> {
     console.log("PASA POR POSICIONES y deberia invocar:" + `${environment.legacyApiUrl}/rsv/misvehiculos`);
-    return this.http.get<ReporteOnlineResult>(this.url + 
-      '/reporteOnline?auto='+idVehiculo+'&desde='+fechaDesde+'&hasta='+horaHasta+'&hora='+horaDesde,{})
+    return this.http.get<ReporteOnlineResult>(`${environment.legacyApiUrl}/rsv/reporteOnline?auto=`+idVehiculo+'&desde='+fechaDesde+'&hasta='+horaHasta+'&hora='+horaDesde,{})
       .pipe(
         retry(1),
         catchError(this.handleError)
