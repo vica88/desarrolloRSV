@@ -48,7 +48,7 @@ import { InteractionWithMapService } from '@app/_services/interaction-with-map.s
 import { MapCommand } from '@app/_models/mapcommand';
 import { PopupmarkerComponent } from '@app/modules/popupmarker/popupmarker.component';
 import { ReporteOnlineResult } from '@app/_models/reporteonlineresult';
-import { EventViewerComponent } from '@app/modules/dialog-content/event-viewer.component';
+import { EventViewerComponent } from '../../event-viewer/event-viewer.component';
 import { DialogContentBuscarVehiculoComponent } from '@app/modules/dialog-content-buscar-vehiculo/dialog-content-buscar-vehiculo.component';
 import { Vehiculo } from '@app/_models/vehicles';
 import { VehicleService } from '@app/_services/vehicle.service';

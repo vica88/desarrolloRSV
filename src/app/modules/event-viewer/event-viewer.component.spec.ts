@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventViewerComponent } from './event-viewer.component';
 
-describe('DialogContentComponent', () => {
+describe('EventViewerComponent', () => {
   let component: EventViewerComponent;
   let fixture: ComponentFixture<EventViewerComponent>;
 

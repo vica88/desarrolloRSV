@@ -5,10 +5,10 @@ import { MapCommand } from '@app/_models/mapcommand';
 
 
 @Component({
-  selector: 'app-dialog-content',
+  selector: 'app-event-viewer',
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './dialog-content.component.html',
-  styleUrls: ['./dialog-content.component.css']
+  templateUrl: './event-viewer.component.html',
+  styleUrls: ['./event-viewer.component.css']
 })
 export class EventViewerComponent implements OnInit {
   

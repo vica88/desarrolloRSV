@@ -25,7 +25,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DialogDragDropComponent } from './modules/dialog-drag-drop/dialog-drag-drop.component';
 import { PopupmarkerComponent } from './modules/popupmarker/popupmarker.component';
-import { EventViewerComponent } from './modules/dialog-content/event-viewer.component';
+import { EventViewerComponent } from './modules/event-viewer/event-viewer.component';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { LocalstorageService } from './_services/localstorage.service';
 import { DialogContentBuscarVehiculoComponent } from './modules/dialog-content-buscar-vehiculo/dialog-content-buscar-vehiculo.component';
