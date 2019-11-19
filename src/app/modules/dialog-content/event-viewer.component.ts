@@ -64,7 +64,6 @@ export class EventViewerComponent implements OnInit {
   ngOnInit() {
     
     this.mostrarBotones = this.options.mostrarControles
-    console.log(this.mostrarBotones)
     let fechaAnterior = ''
     let i = 0
     this.data.puntos.forEach(e => {
